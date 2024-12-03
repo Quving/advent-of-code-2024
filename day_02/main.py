@@ -42,6 +42,23 @@ def part_1(list_input: list[list[int]]):
     print("Total safe ways: ", counter_safe_ways)
 
 
+def part_2(list_input: list[list[int]]):
+    counter_safe_ways = 0
+
+    for row in list_input:
+        if is_monotonic(row) and is_steep_enough(row):
+            counter_safe_ways += 1
+        else:
+            for i in range(0, len(row)):
+                new_row = row[:i] + row[i + 1:]
+                if is_monotonic(new_row) and is_steep_enough(new_row):
+                    counter_safe_ways += 1
+                    break  # We only need to find one in each row
+
+    print("Total safe ways with removing 1 step: ", counter_safe_ways)
+
+
 if __name__ == '__main__':
     input_list = read_input()
     part_1(input_list)
+    part_2(input_list)
