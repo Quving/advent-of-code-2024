@@ -41,7 +41,6 @@ def part_1():
     for word in all_words:
         for match_word in match_words:
             matches += slide_and_count_matches(word, match_word)
-            print(f"{word}, matches: {matches}, match_word: {match_word}")
 
     print(f"Matches: {matches}")
 
@@ -93,6 +92,42 @@ def get_diagonals_from_2d_list(matrix):
     return diags
 
 
+def part_2():
+    input_list = read_input()
+
+    def get_diagonal_neighbors(x, y, matrix):
+        diagonals = [
+            (x - 1, y - 1),  # Top left
+            (x + 1, y + 1),  # Bottom right
+            (x - 1, y + 1),  # Bottom left
+            (x + 1, y - 1),  # Top right
+        ]
+
+        # Remove invalid diagonals (out of bounds)
+        return [d for d in diagonals if 0 <= d[0] < len(matrix) and 0 <= d[1] < len(matrix[0])]
+
+    # Approach: Search an A. Each A must have 2 S's and 2 M's diagonally.
+    matches = 0
+    for i in range(1, len(input_list) - 1):
+        for j in range(1, len(input_list[i]) - 1):
+            if input_list[i][j] == 'A':
+                neighbors_indices = get_diagonal_neighbors(i, j, input_list)
+                neighbors = [input_list[n[0]][n[1]] for n in neighbors_indices]
+
+                # Valid neighbors patterns
+                valid_patterns = [
+                    ['S', 'M', 'S', 'M'],
+                    ['S', 'M', 'M', 'S'],
+                    ['M', 'S', 'M', 'S'],
+                    ['M', 'S', 'S', 'M'],
+                ]
+
+                if neighbors in valid_patterns:
+                    matches += 1
+
+    print(f"Matches: {matches}")
+
+
 if __name__ == '__main__':
     list_simplified = [
         ["A", "M", "M"],
@@ -106,3 +141,4 @@ if __name__ == '__main__':
     # print(get_diagonals_from_2d_list(list_simplified))
 
     part_1()
+    part_2()
