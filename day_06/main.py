@@ -56,9 +56,9 @@ class Game:
             self.guard.x, self.guard.y = self.find_guard_position()
 
     def find_guard_position(self):
-        for y in range(self.game_map.height):
-            for x in range(self.game_map.width):
-                if self.game_map.map[y][x] == '^':
+        for y in range(self.game_map.width):
+            for x in range(self.game_map.height):
+                if self.game_map.map[x][y] == '^':
                     print("Guard found at", x, y)
                     return x, y
 
@@ -66,15 +66,15 @@ class Game:
         return 0 <= x < self.game_map.width and 0 <= y < self.game_map.height
 
     def get_marker(self, x, y):
-        return self.game_map.map[y][x]
+        return self.game_map.map[x][y]
 
     def set_marker(self, marker, x, y):
-        self.game_map.map[y][x] = marker
+        self.game_map.map[x][y] = marker
 
     def can_move_to(self, x, y):
         if not self.is_valid_position(x, y):
             return True
-        return self.game_map.map[y][x] != '#'
+        return self.game_map.map[x][y] != '#'
 
     def start_walk(self):
         steps_count = 0
@@ -127,20 +127,13 @@ def part_2(input_list):
 
     distinct_positions_pos = set([(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in path_walked]])
 
-    for line in game.game_map.map:
-        print(''.join(line))
-
-    for vp in distinct_positions_pos:
-        if not game.game_map.map[vp[1]][vp[0]] in ["N", "E", "S", "W"]:
-            print("Position not marked: ", vp, game.game_map.map[vp[0]][vp[1]])
-
     # Count infinite loops
     infinite_loops = 0
     for vp in distinct_positions_pos:
         game_map_copy = [line.copy() for line in input_list]
 
         # Replace the visited position with an obstacle
-        game_map_copy[vp[1]][vp[0]] = '#'
+        game_map_copy[vp[0]][vp[1]] = '#'
 
         # Run the game and count infinite loops
         game = Game(game_map=GameMap(game_map_copy), guard=Guard(x=80, y=32, current_direction='N'))
@@ -155,8 +148,9 @@ def part_2(input_list):
 if __name__ == '__main__':
     input_list = read_input()
 
-    # Convert input to a list of lists
+    # Convert lines to columns
     input_list = [list(line) for line in input_list]
+    input_list = list(map(list, zip(*input_list)))
 
     # Important: Copy the input_list for part_1 and part_2!
     part_1(input_list=[line.copy() for line in input_list])
