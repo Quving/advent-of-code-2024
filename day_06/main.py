@@ -59,19 +59,27 @@ class Game:
     def is_guard_on_map(self):
         return 0 <= self.guard.x < self.game_map.width and 0 <= self.guard.y < self.game_map.height
 
-    def can_move_forward(self):
-        x, y = self.guard.get_next_position()
+    def get_marker(self, x, y):
+        return self.game_map.map[y][x]
+
+    def set_marker(self, marker, x, y):
+        self.game_map.map[y][x] = marker
+
+    def can_move_to(self, x, y):
         return self.game_map.map[y][x] != '#'
 
     def start_walk(self):
-        steps = 0  # Current position counts as a step
-
+        steps_count = 0  # Current position counts as a step
+        obstructions_count = 0
         while True:
-            if self.can_move_forward():
+            next_guard_position = self.guard.get_next_position()
+            current_guard_position = self.guard.x, self.guard.y
+            if self.can_move_to(*next_guard_position):
                 # Mark current position before moving
-                if self.game_map.map[self.guard.y][self.guard.x] != "X":
-                    self.game_map.map[self.guard.y][self.guard.x] = 'X'
-                    steps += 1
+
+                if self.get_marker(*current_guard_position) in ['.', '^']:
+                    self.set_marker(self.guard.current_direction, *current_guard_position)
+                    steps_count += 1
 
                 self.guard.move_forward()
             else:
@@ -79,7 +87,7 @@ class Game:
 
             # Cancel if guard has left map
             if not self.is_guard_on_map():
-                print(f"Guard has left the map at {self.guard.x, self.guard.y}. Total steps: {steps}")
+                print(f"Guard has left the map at {self.guard.x, self.guard.y}. Total steps: {steps_count}")
                 break
 
     def print_map(self):
