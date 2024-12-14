@@ -3,14 +3,23 @@
 
 
 def read_input() -> list[list[int]]:
-    x = []
-    with open("day_02/input.txt") as f:
+    """
+    Read input from file and return as a list of lists
+    :return:
+    """
+    with open("day_02/input.txt", "r") as f:
+        x = []
         for line in f:
             x.append(list(map(int, line.strip().split())))
-    return x
+        return x
 
 
 def is_monotonic(row: list[int]) -> bool:
+    """
+    Returns true, if the row is either increasing or decreasing monotonically
+    :param row:
+    :return:
+    """
     increasing = []
     decreasing = []
     for i in range(1, len(row)):
@@ -28,6 +37,11 @@ def is_monotonic(row: list[int]) -> bool:
 
 
 def is_steep_enough(row: list[int]) -> bool:
+    """
+    Returns true, if the row is steep enough (1 <= steepness <= 3)
+    :param row:
+    :return:
+    """
     all_steepness = []
     for i in range(1, len(row)):
         steepness = abs(row[i] - row[i - 1])
@@ -37,6 +51,11 @@ def is_steep_enough(row: list[int]) -> bool:
 
 
 def part_1(list_input: list[list[int]]):
+    """
+    Part 1
+    :param list_input:
+    :return:
+    """
     counter_safe_ways = 0
 
     for row in list_input:
@@ -47,6 +66,11 @@ def part_1(list_input: list[list[int]]):
 
 
 def part_2(list_input: list[list[int]]):
+    """
+    Part 2
+    :param list_input:
+    :return:
+    """
     counter_safe_ways = 0
 
     for row in list_input:
