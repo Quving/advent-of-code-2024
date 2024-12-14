@@ -1,4 +1,8 @@
 def get_input() -> tuple:
+    """
+    Read input from file and return as a tuple of two lists
+    :return:
+    """
     list_1 = []
     list_2 = []
 
@@ -12,6 +16,10 @@ def get_input() -> tuple:
 
 
 def part_1():
+    """
+    Part 1
+    :return:
+    """
     column_a, column_b = get_input()
 
     column_a.sort()
@@ -25,6 +33,10 @@ def part_1():
 
 
 def part_2():
+    """
+    Part 2
+    :return:
+    """
     column_a, column_b = get_input()
 
     count_elements = {}
