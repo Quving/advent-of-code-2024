@@ -3,11 +3,20 @@
 
 
 def read_input():
+    """
+    Read input from file and return as a list of strings
+    :return:
+    """
     with open("day_03/input.txt", "r") as file:
         return [line.strip() for line in file]
 
 
-def compute_muls_in_string(string: str):
+def compute_muls_in_string(string: str) -> int:
+    """
+    Given a string, compute the sum of all muls in the string and return it
+    :param string:
+    :return:
+    """
     import re
     regex = r"mul\(\d+,\d+\)"
 
@@ -22,6 +31,11 @@ def compute_muls_in_string(string: str):
 
 
 def part_1(task_input: list[str]):
+    """
+    Part 1
+    :param task_input:
+    :return:
+    """
     sum_of_all_lines = 0
     for line in task_input:
         sum_of_all_lines += compute_muls_in_string(line)
@@ -30,6 +44,11 @@ def part_1(task_input: list[str]):
 
 
 def part_2(line: str):
+    """
+    Part 2
+    :param line:
+    :return:
+    """
     import re
     matches = []
 
