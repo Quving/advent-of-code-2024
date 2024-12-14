@@ -116,33 +116,34 @@ def part_1(input_list):
     game = Game(game_map=GameMap(input_list), guard=Guard())
     walk_path = game.start_walk()
 
-    distinct_positions = len(set([f"{x},{y}" for x, y, _ in [pos.split(',') for pos in walk_path]]))
+    distinct_positions = len(set([(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in walk_path]]))
     print("Distinct positions: ", distinct_positions)
 
 
 def part_2(input_list):
     # From Part 1
-    game = Game(game_map=GameMap(input_list), guard=Guard())
-    walk_path = game.start_walk()
+    game = Game(game_map=GameMap([line.copy() for line in input_list]), guard=Guard())
+    path_walked = game.start_walk()
 
-    # Mark visited positions
-    marked_map = game.game_map.map
-    visited_positions = []
-    for i, line in enumerate(marked_map):
-        for j, marker in enumerate(line):
-            if marker in ['N', 'E', 'S', 'W']:
-                visited_positions.append([i, j])
-                marked_map[i][j] = '.'
+    distinct_positions_pos = set([(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in path_walked]])
+
+    for line in game.game_map.map:
+        print(''.join(line))
+
+    for vp in distinct_positions_pos:
+        if not game.game_map.map[vp[1]][vp[0]] in ["N", "E", "S", "W"]:
+            print("Position not marked: ", vp, game.game_map.map[vp[0]][vp[1]])
 
     # Count infinite loops
     infinite_loops = 0
-    for vp in visited_positions:
-        marked_map_copy = [line.copy() for line in marked_map]
+    for vp in distinct_positions_pos:
+        game_map_copy = [line.copy() for line in input_list]
 
         # Replace the visited position with an obstacle
-        marked_map_copy[vp[0]][vp[1]] = '#'
+        game_map_copy[vp[1]][vp[0]] = '#'
 
-        game = Game(game_map=GameMap(marked_map_copy), guard=Guard(x=80, y=32, current_direction='N'))
+        # Run the game and count infinite loops
+        game = Game(game_map=GameMap(game_map_copy), guard=Guard(x=80, y=32, current_direction='N'))
         try:
             game.start_walk()
         except InfiniteLoopError:
