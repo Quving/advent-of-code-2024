@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+""" Day 02 - Advent of Code 2024 """
+
+
 def read_input() -> list[list[int]]:
     x = []
     with open("day_02/input.txt") as f:

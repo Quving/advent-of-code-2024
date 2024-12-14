@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+""" Day 01 - Advent of Code 2024 """
+
+
 def get_input() -> tuple:
     """
     Read input from file and return as a tuple of two lists

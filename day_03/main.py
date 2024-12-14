@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+""" Day 03 - Advent of Code 2024 """
+
+
 def read_input():
     with open("day_03/input.txt", "r") as file:
         return [line.strip() for line in file]

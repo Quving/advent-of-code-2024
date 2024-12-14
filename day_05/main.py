@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+""" Day 05 - Advent of Code 2024 """
 from functools import cmp_to_key
 
 
