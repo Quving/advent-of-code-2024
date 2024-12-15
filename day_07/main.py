@@ -76,6 +76,11 @@ def symbol_counter(symbols: list, n: int):
 
 
 def part_1():
+    """
+    The approach is to brute force all combinations of operators and check if the result is correct. Use a counter
+    with a associated base to generate all combinations.
+    :return:
+    """
     equations = read_input()
 
     correct_equations_count = 0
@@ -97,6 +102,10 @@ def part_1():
 
 
 def part_2():
+    """
+    The approach is the same as in part 1, but we need to add the concatenation operator '||'.
+    :return:
+    """
     equations = read_input()
 
     correct_equations_count = 0
