@@ -16,35 +16,6 @@ def read_input() -> list[tuple]:
         return equations
 
 
-def get_all_combinations(n: int) -> list:
-    """
-    Get all possible combinations of operators for a given length of elements
-    :param n:
-    :param elements:
-    :return:
-    """
-
-    # Count to n binary.
-    binary_counts = []
-    for i in range(2 ** n):
-        binary_counts.append(bin(i)[2:].zfill(len(bin(2 ** n - 1)[2:])))
-
-    # Replace 0 with + and 1 with *
-    all_combinations = []
-    for binary_count in binary_counts:
-        combination = []
-        for b in binary_count:
-            if b == '0':
-                combination.append('+')
-            elif b == '1':
-                combination.append('*')
-            else:
-                raise ValueError("Invalid binary count")
-
-        all_combinations.append(combination)
-    return all_combinations
-
-
 def compute_result(elements: list, operators: list):
     """
     Compute the result of the elements and operators from left to right. Without precedence.
@@ -61,10 +32,47 @@ def compute_result(elements: list, operators: list):
             result += elements[i]
         elif operators[i - 1] == '*':
             result *= elements[i]
+        elif operators[i - 1] == '||':
+            result = int(str(result) + str(elements[i]))
         else:
             raise ValueError("Invalid operator")
 
     return result
+
+
+def symbol_counter(symbols: list, n: int):
+    """
+    Given a list of symbols and a number n, generate all numbers with base n. Like binary, ternary, etc.
+    :param symbols:
+    :param n:
+    :return:
+    """
+
+    def to_number_with_base(x, base):
+        if x == 0:
+            return '0'
+
+        result = []
+        while x:
+            x, r = divmod(x, base)
+            result.append(str(r))
+
+        return ''.join(reversed(result))
+
+    # Generate all numbers with base n
+    numbers_str = []
+    for i in range(n):
+        number = to_number_with_base(i, len(symbols))
+
+        # Add leading zeros
+        numbers_str.append(number.zfill(len(to_number_with_base(n - 1, len(symbols)))))
+
+    # Replace numbers with symbols
+    numbers_list = []
+    for i, number in enumerate(numbers_str):
+        numbers_list.append([symbols[int(n)] for n in number])
+
+    return numbers_list
 
 
 def part_1():
@@ -75,7 +83,29 @@ def part_1():
 
     for eq in equations:
         result, parts = eq
-        op_combinations = get_all_combinations(n=len(parts) - 1)
+        op_combinations = symbol_counter(['+', '*'], 2 ** (len(parts) - 1))
+
+        # Brute force all combinations
+        for op_combination in op_combinations:
+            if compute_result(parts, op_combination) == result:
+                correct_equations_count += 1
+                sum_test_values += result
+                break
+
+    print("Correct equations: ", correct_equations_count)
+    print("Sum of test values: ", sum_test_values)
+
+
+def part_2():
+    equations = read_input()
+
+    correct_equations_count = 0
+    sum_test_values = 0
+
+    for eq in equations:
+        result, parts = eq
+        # We want elements of length len(part)-1, so we need to count until 3 ** (len(parts) - 1)
+        op_combinations = symbol_counter(['+', '*', '||'], 3 ** (len(parts) - 1))
 
         # Brute force all combinations
         for op_combination in op_combinations:
@@ -89,4 +119,6 @@ def part_1():
 
 
 if __name__ == '__main__':
-    part_1()
+    print(symbol_counter(['!', '?'], 8))
+    part_1()  # Result: 1582598718861
+    part_2()  # Result:  165278151522644
