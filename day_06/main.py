@@ -12,6 +12,10 @@ class InfiniteLoopError(Exception):
 
 
 class Guard:
+    """
+    Guard class to handle the guard's state (position and direction)
+    """
+
     def __init__(self, x=None, y=None, current_direction="N"):
         self.x = x
         self.y = y
@@ -60,6 +64,10 @@ class Guard:
 
 
 class GameMap:
+    """
+    GameMap class to handle the game map
+    """
+
     def __init__(self, game_map: list[list[str]]):
         self.map = game_map
         self.width = len(game_map[0])
@@ -67,6 +75,10 @@ class GameMap:
 
 
 class Game:
+    """
+    Game class to handle the game logic between GameMap and Guard
+    """
+
     def __init__(self, game_map: GameMap, guard: Guard):
         self.game_map = game_map
         self.game_map_original = [line.copy() for line in game_map.map]
@@ -85,6 +97,8 @@ class Game:
                 if self.game_map.map[x][y] == '^':
                     print("Guard found at", x, y)
                     return x, y
+
+        return None
 
     def is_valid_position(self, x, y):
         """
@@ -170,7 +184,7 @@ def part_1(input_list):
     game = Game(game_map=GameMap(input_list), guard=Guard())
     walk_path = game.start_walk()
 
-    distinct_positions = len(set([(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in walk_path]]))
+    distinct_positions = len({(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in walk_path]})
     print("Distinct positions: ", distinct_positions)
 
 
@@ -184,7 +198,7 @@ def part_2(input_list):
     game = Game(game_map=GameMap([line.copy() for line in input_list]), guard=Guard())
     path_walked = game.start_walk()
 
-    distinct_positions_pos = set([(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in path_walked]])
+    distinct_positions_pos = {(int(x), int(y)) for x, y, _ in [pos.split(',') for pos in path_walked]}
 
     # Count infinite loops
     infinite_loops = 0

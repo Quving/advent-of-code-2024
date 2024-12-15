@@ -3,11 +3,21 @@
 
 
 def read_input():
+    """
+    Read input from file and return as a list of strings
+    :return:
+    """
     with open("day_04/input.txt", "r", encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 
 def slide_and_count_matches(line: str, word: str):
+    """
+    Slide a window over the line and count the number of matches
+    :param line:
+    :param word:
+    :return:
+    """
     matches = 0
     for i in range(len(line) - len(word) + 1):
         if line[i:i + len(word)] == word:
@@ -17,6 +27,10 @@ def slide_and_count_matches(line: str, word: str):
 
 
 def part_1():
+    """
+    Part 1
+    :return:
+    """
     match_words = ["XMAS", "SAMX"]
 
     input_list = read_input()
@@ -50,6 +64,11 @@ def part_1():
 
 
 def get_diagonals_from_2d_list(matrix):
+    """
+    Get all diagonals from a 2D list
+    :param matrix:
+    :return:
+    """
     diags = []
     width = len(matrix[0])
     height = len(matrix)
@@ -97,6 +116,10 @@ def get_diagonals_from_2d_list(matrix):
 
 
 def part_2():
+    """
+    Part 2
+    :return:
+    """
     input_list = read_input()
 
     def get_diagonal_neighbors(x, y, matrix):
