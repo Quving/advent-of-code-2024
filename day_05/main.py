@@ -4,7 +4,7 @@ from functools import cmp_to_key
 
 
 def read_input():
-    with open("day_05/input.txt", "r") as file:
+    with open("day_05/input.txt", "r", encoding='utf-8') as file:
         rules = []
         lines = []
         rules_end = False

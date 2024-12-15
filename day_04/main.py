@@ -3,7 +3,7 @@
 
 
 def read_input():
-    with open("day_04/input.txt", "r") as file:
+    with open("day_04/input.txt", "r", encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 

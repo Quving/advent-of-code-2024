@@ -7,7 +7,7 @@ def read_input() -> list[list[int]]:
     Read input from file and return as a list of lists
     :return:
     """
-    with open("day_02/input.txt", "r") as f:
+    with open("day_02/input.txt", "r", encoding='utf-8') as f:
         x = []
         for line in f:
             x.append(list(map(int, line.strip().split())))

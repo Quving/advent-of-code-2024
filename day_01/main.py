@@ -10,7 +10,7 @@ def get_input() -> tuple:
     list_1 = []
     list_2 = []
 
-    with open('day-01/input.txt', 'r') as f:
+    with open('day-01/input.txt', 'r', encoding='utf-8') as f:
         for line in f:
             element_a, element_b = line.strip().split()
             list_1.append(int(element_a))

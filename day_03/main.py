@@ -7,7 +7,7 @@ def read_input():
     Read input from file and return as a list of strings
     :return:
     """
-    with open("day_03/input.txt", "r") as file:
+    with open("day_03/input.txt", "r", encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 
