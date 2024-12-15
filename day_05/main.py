@@ -1,8 +1,14 @@
+#!/usr/bin/env python3
+""" Day 05 - Advent of Code 2024 """
 from functools import cmp_to_key
 
 
 def read_input():
-    with open("day_05/input.txt", "r") as file:
+    """
+    Read input from file and return as a tuple of two lists
+    :return:
+    """
+    with open("day_05/input.txt", "r", encoding='utf-8') as file:
         rules = []
         lines = []
         rules_end = False
@@ -19,9 +25,15 @@ def read_input():
         return rules, lines
 
 
-def is_line_correct(line, rules_dict) -> bool:
+def is_line_correct(line, rules) -> bool:
+    """
+    Check if the line is correct based on the rules
+    :param line:
+    :param rules:
+    :return:
+    """
     for i in range(len(line) - 1):
-        num_tail = rules_dict[line[i]]
+        num_tail = rules[line[i]]
         line_tail = line[i + 1:]
 
         for lt in line_tail:
@@ -34,8 +46,10 @@ def is_line_correct(line, rules_dict) -> bool:
 def part_1(rules: dict, lines: list):
     """
     Approach:
-    - Collect all rules in a dictionary. The key is the first number and the following number are put in a list.
-    - For each line, check if the next number is in the list of the current number. If not, the line is incorrect.
+    - Collect all rules in a dictionary.
+    - The key is the first number and the following number are put in a list.
+    - For each line, check if the next number is in the list of the current number.
+    - If not, the line is incorrect.
     """
 
     # Check if the line is correct
@@ -49,6 +63,13 @@ def part_1(rules: dict, lines: list):
 
 
 def sort_line_correctly(line: list, rules: dict):
+    """
+    Sort the line correctly based on the rules
+    :param line:
+    :param rules:
+    :return:
+    """
+
     def comp(a, b):
         if b in rules[a]:
             return -1
@@ -58,6 +79,12 @@ def sort_line_correctly(line: list, rules: dict):
 
 
 def part_2(rules: dict, lines: list):
+    """
+    Part 2
+    :param rules:
+    :param lines:
+    :return:
+    """
     # Check if the line is correct
     sum_of_incorrect_lines = 0
     for line in lines:

@@ -1,10 +1,24 @@
+#!/usr/bin/env python3
+""" Day 03 - Advent of Code 2024 """
+
+import re
+
+
 def read_input():
-    with open("day_03/input.txt", "r") as file:
+    """
+    Read input from file and return as a list of strings
+    :return:
+    """
+    with open("day_03/input.txt", "r", encoding='utf-8') as file:
         return [line.strip() for line in file]
 
 
-def compute_muls_in_string(string: str):
-    import re
+def compute_muls_in_string(string: str) -> int:
+    """
+    Given a string, compute the sum of all muls in the string and return it
+    :param string:
+    :return:
+    """
     regex = r"mul\(\d+,\d+\)"
 
     sum_of_all_lines = 0
@@ -17,16 +31,25 @@ def compute_muls_in_string(string: str):
     return sum_of_all_lines
 
 
-def part_1(task_input: list[str]):
+def part_1(input_list: list[str]):
+    """
+    Part 1
+    :param input_list:
+    :return:
+    """
     sum_of_all_lines = 0
-    for line in task_input:
+    for line in input_list:
         sum_of_all_lines += compute_muls_in_string(line)
 
     print("Sum of all: ", sum_of_all_lines)
 
 
 def part_2(line: str):
-    import re
+    """
+    Part 2
+    :param line:
+    :return:
+    """
     matches = []
 
     regex_do_dont = r"do\(\).*?don't\(\)|^.*?don't\(\)"
@@ -44,9 +67,9 @@ def part_2(line: str):
 
 
 if __name__ == '__main__':
-    input_list = read_input()
-    part_1(input_list)
+    task_input = read_input()
+    part_1(task_input)
 
     # Ignore newlines and append input_list to a single string
-    input_list = ''.join(input_list)
-    part_2(input_list)
+    task_input = ''.join(task_input)
+    part_2(task_input)

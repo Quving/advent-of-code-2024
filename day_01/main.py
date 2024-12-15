@@ -1,8 +1,16 @@
+#!/usr/bin/env python3
+""" Day 01 - Advent of Code 2024 """
+
+
 def get_input() -> tuple:
+    """
+    Read input from file and return as a tuple of two lists
+    :return:
+    """
     list_1 = []
     list_2 = []
 
-    with open('day-01/input.txt') as f:
+    with open('day-01/input.txt', 'r', encoding='utf-8') as f:
         for line in f:
             element_a, element_b = line.strip().split()
             list_1.append(int(element_a))
@@ -12,6 +20,10 @@ def get_input() -> tuple:
 
 
 def part_1():
+    """
+    Part 1
+    :return:
+    """
     column_a, column_b = get_input()
 
     column_a.sort()
@@ -25,6 +37,10 @@ def part_1():
 
 
 def part_2():
+    """
+    Part 2
+    :return:
+    """
     column_a, column_b = get_input()
 
     count_elements = {}
