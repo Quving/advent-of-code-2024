@@ -8,7 +8,7 @@ def read_input() -> list[list[str]]:
         return [list(line.strip()) for line in file]
 
 
-def part_1():
+def part_1_and_2():
     """
     Part 1:
     Approach: For each frequency, calculate the antinodes and mark them with a '#'
@@ -31,7 +31,7 @@ def part_1():
         else:
             frequency_coordinates[c] = [(x, y)]
 
-    antinodes_coords = set()  # Use a set to ignore duplicates
+    a_node_coords = set()  # Use a set to ignore duplicates
     for f, coords in frequency_coordinates.items():
         tuples = list(itertools.product(coords, coords))
 
@@ -42,19 +42,41 @@ def part_1():
             x_diff = b[0] - a[0]
             y_diff = b[1] - a[1]
 
-            # Compute the distance between the two frequencies and calculate the antinodes
-            # before the first and behind the second frequency
+            # >>> Part 1: Comment part 2 to enable part 1
+            # Only consider one the antinodes before and behind. Compute the distance between the two frequencies
+            # and calculate the antinodes before the first and behind the second frequency
             a_nodes = [
                 (a[0] - x_diff, a[1] - y_diff),
                 (b[0] + x_diff, b[1] + y_diff)
             ]
+            # <<< END Part 1
+
+            # >>> Part 2: Put the antinodes on the path between the two frequencies until the grid ends.
+            # Comment part 1 to enable part 2
+            grid_width = len(list_list[0])
+            grid_height = len(list_list)
+            a_nodes = []
+            x_temp, y_temp = a
+            while 0 <= x_temp < grid_width and 0 <= y_temp < grid_height:  # Antinodes before a
+                x_temp -= x_diff
+                y_temp -= y_diff
+                a_nodes.append((x_temp, y_temp))
+
+            x_temp, y_temp = b
+            while 0 <= x_temp < grid_width and 0 <= y_temp < grid_height:  # Antinodes behind b
+                x_temp += x_diff
+                y_temp += y_diff
+                a_nodes.append((x_temp, y_temp))
+
+            a_nodes += [a, b]  # Include frequencies locations
+            # <<< END Part 2
 
             for an in a_nodes:
                 # Skip antinodes outside the grid
-                if not (0 <= an[0] < len(list_list[0])) and (0 <= an[1] < len(list_list)):
+                if not (0 <= an[0] < grid_width and 0 <= an[1] < grid_height):
                     continue
 
-                antinodes_coords.add(an)  # Count it
+                a_node_coords.add(an)  # Count it
 
                 # Mark antinode with '#' on grid. Do not overwrite existing frequencies.
                 marker_current = list_list[an[0]][an[1]]
@@ -65,8 +87,8 @@ def part_1():
     for line in list_list:
         print(''.join(line))
 
-    print("Count: ", len(antinodes_coords))
+    print("Count: ", len(a_node_coords))
 
 
 if __name__ == '__main__':
-    part_1()  # 369
+    part_1_and_2()  # Part1: 369 Part2: 1169
