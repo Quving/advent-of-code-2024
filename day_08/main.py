@@ -13,6 +13,9 @@ def part_1_and_2():
     Part 1:
     Approach: For each frequency, calculate the antinodes and mark them with a '#'
     To do so: Collect each frequency's coordinates and calculate the antinodes by its path to each other.
+    Part 2:
+    Approach: The same procedure as part 1, but this time we put antinodes on the same path until the grid ends in
+    each direction and count them including the frequencies themselves (+2) for each path.
     :return:
     """
     list_list = read_input()
